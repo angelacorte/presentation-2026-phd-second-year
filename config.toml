@@ -1,4 +1,4 @@
-baseURL = "https://angelacorte.github.io/presentation-2026-acsos-phd-symposium"
+baseURL = "https://angelacorte.github.io/presentation-2026-phd-second-year"
 locale = "en-US"
 title = "A Hugo theme for creating Reveal.js presentations"
 disableKinds = ["sitemap", "RSS"]
