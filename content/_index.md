@@ -65,8 +65,11 @@ A robotic collective must pursue a **system-level goal** with only local views a
 {{% multicol class="split" %}}
 {{% col class="copy-col" %}}
 
-<p class="today"><strong>Usually, each robot is programmed individually</strong> — a common example is ROS.
-With hundreds of robots, that does not scale.</p>
+<p class="today">
+<span class="today-label">Current approach</span>
+<strong>Each robot is programmed individually</strong>
+<span class="today-detail">ROS is a common example. With hundreds of robots, this does not scale.</span>
+</p>
 
 With **Aggregate Computing** the collective is programmed as a whole, and the same
 program runs decentralized on every device, which repeatedly:
