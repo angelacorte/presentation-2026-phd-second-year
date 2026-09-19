@@ -398,6 +398,8 @@ program runs decentralized on every device, which repeatedly:
 
 {{< slide class="open-slide" transition="fade" >}}
 
+[//]: # (<p class="eyebrow">What is still missing</p>)
+
 # Open challenges
 
 <div class="comparison open-comparison">
@@ -464,6 +466,8 @@ program runs decentralized on every device, which repeatedly:
 ---
 
 {{< slide class="closing-slide future-work-slide" transition="fade" >}}
+
+[//]: # (<p class="eyebrow">Next steps</p>)
 
 # Future work
 

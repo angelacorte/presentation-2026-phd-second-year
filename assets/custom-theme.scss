@@ -1585,3 +1585,31 @@ $deckFooterText: "Cortecchia A. - Advances in Collective Robotics Through Macro-
 .reveal .portfolio-slide .evidence.plots .plot-key {
 	margin-top: 18px;
 }
+
+// ---------------------------------------------------------------------
+// Deck-wide alignment pass: every block starts on the same left edge as
+// the eyebrow and the title, instead of being centred inside the slide.
+// ---------------------------------------------------------------------
+.reveal .comparison,
+.reveal .current-work-map {
+	margin-left: 0;
+	margin-right: 0;
+	max-width: none;
+}
+
+.reveal .future-work-slide h1,
+.reveal .future-work-slide .closing-layout {
+	margin-left: 0;
+	margin-right: 0;
+	max-width: none;
+}
+
+
+// Title slide: two lines instead of three, and a larger visual.
+.reveal .title-layout {
+	grid-template-columns: 1.14fr 0.86fr;
+}
+
+.reveal .title-copy h1 {
+	font-size: 1.6em;
+}
