@@ -1,6 +1,6 @@
 +++
-title = "Toward a Collective Robotic Operating System"
-description = "ACSOS 2026 PhD Symposium presentation"
+title = "Advances in Collective Robotics Through Macro-Programming"
+description = "UniBo PhD Second Year presentation 2026"
 outputs = ["Reveal"]
 +++
 
@@ -9,12 +9,10 @@ outputs = ["Reveal"]
 <div class="title-layout">
 <div class="title-copy">
 
-<p class="eyebrow">PhD Symposium @ ACSOS 2026</p>
-
-# Towards Collective Robotic Operating Systems through Aggregate Computing
+# Advances in Collective Robotics Through Macro-Programming
 
 <p class="author"><strong>Angela Cortecchia</strong><br>
-Supervisor: Prof. Danilo Pianini <br>Co-supervisor: Prof. Mirko Viroli</p>
+Supervisor: Prof. Danilo Pianini <br>Co-supervisor: Prof. Mirko Viroli<br>Third member: Enrico Gallinucci</p>
 
 <p class="title-mail"><a href="mailto:angela.cortecchia@unibo.it">angela.cortecchia@unibo.it</a></p>
 
@@ -176,6 +174,8 @@ program runs decentralized on every device, which repeatedly:
 
 {{< slide class="portfolio-slide" transition="fade" >}}
 
+<p class="eyebrow">Main thesis contributions 2/5</p>
+
 <div class="result-grid pair">
 <figure>
 <h2>Resource management</h2>
@@ -196,14 +196,16 @@ program runs decentralized on every device, which repeatedly:
 </div>
 
 {{% footer %}}
-[1] A. Cortecchia, G. Ciatto, R. Casadei, and D. Pianini, "FieldVMC: an asynchronous model and platform for self-organising morphogenesis of artificial structures". Complex Intell. Syst. 12(2) (2026)
+[1] A. Cortecchia, G. Ciatto, R. Casadei, and D. Pianini, *"FieldVMC: an asynchronous model and platform for self-organising morphogenesis of artificial structures"*. Complex Intell. Syst. 12(2) (2026)
 
-[2] G. Aguzzi, M. Baiardi, A. Cortecchia, B. Miloradovic, A. Papadopoulos, D. Pianini, and M. Viroli, "A Field-Based Approach for Runtime Replanning in Swarm Robotics Missions". (ACSOS 2025)
+[2] G. Aguzzi, M. Baiardi, A. Cortecchia, B. Miloradovic, A. Papadopoulos, D. Pianini, and M. Viroli, *"A Field-Based Approach for Runtime Replanning in Swarm Robotics Missions"*. (ACSOS 2025)
 {{% /footer %}}
 
 ---
 
 {{< slide class="portfolio-slide" transition="fade" >}}
+
+<p class="eyebrow">Main thesis contributions 4/5</p>
 
 <div class="result-grid pair">
 <figure>
@@ -225,18 +227,23 @@ program runs decentralized on every device, which repeatedly:
 </div>
 
 {{% footer %}}
-[3] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, D. Pianini and M. Viroli, "Flexible Distributed Particle Filtering for the Internet of Things via Aggregate Computing," (DCOSS-IoT 2026)
+[3] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, D. Pianini and M. Viroli, *"Flexible Distributed Particle Filtering for the Internet of Things via Aggregate Computing,"* (DCOSS-IoT 2026)
 
-[4] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, "Multi-Target Tracking via Field-Based Distributed Particle Filtering" (ACSOS 2026)
+[4] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, *"Multi-Target Tracking via Field-Based Distributed Particle Filtering"* (ACSOS 2026)
 
-[5] A. Cortecchia, D. Pianini, and M. Viroli, "Self-Stabilizing Min-Max Gossip for Aggregate Computing" (COORDINATION 2026)
+[5] A. Cortecchia, D. Pianini, and M. Viroli, *"Self-Stabilizing Min-Max Gossip for Aggregate Computing"* (COORDINATION 2026)
 {{% /footer %}}
 
 ---
 
 {{< slide class="filter-slide" transition="fade" >}}
 
-# A safety filter between collective strategy and actuation
+<p class="eyebrow">Main thesis contributions 5/5</p>
+
+# CAROL: Coordinated Aggregate Robotics with Online control Lyapunov and barrier functions [6]
+
+#### A safety filter between collective strategy and actuation
+
 
 <div class="layer-explainer">
 <p><strong>Aggregate program</strong> &middot; computes the wanted behavior</p>
@@ -255,7 +262,7 @@ program runs decentralized on every device, which repeatedly:
 </div>
 
 {{% footer %}}
-[6] A. Cortecchia, A. Papadopoulos, and D. Pianini "Toward Safe Aggregate Computing: A Distributed Control-Theoretic Safety Filter for Robot Swarms" (ACSOS-C 2026)
+[6] A. Cortecchia, A. Papadopoulos, and D. Pianini *"Toward Safe Aggregate Computing: A Distributed Control-Theoretic Safety Filter for Robot Swarms"* (ACSOS-C 2026)
 {{% /footer %}}
 
 ---
@@ -291,31 +298,145 @@ program runs decentralized on every device, which repeatedly:
 
 ---
 
-{{< slide class="closing-slide" transition="fade" >}}
+{{< slide class="current-investigations-slide" transition="fade" >}}
+
+<p class="eyebrow">Research in progress</p>
+
+# Current investigations
+
+<div class="current-work-map">
+<div class="current-work-row">
+<span class="work-index">01</span>
+<strong class="work-name">CAROL</strong>
+<p>Formation control, flocking, and coverage with the safety guarantees provided by the filter.</p>
+</div>
+<div class="current-work-row">
+<span class="work-index">02</span>
+<strong class="work-name">FieldVMC</strong>
+<p>Signed Distance Fields to represent letter-shaped formations and support safe movement.</p>
+</div>
+<div class="current-work-row">
+<span class="work-index">03</span>
+<strong class="work-name">Field-Based DPF</strong>
+<p>Heterogeneous sensors and actuators in more demanding scenarios, with support for additional filtering algorithms.</p>
+</div>
+<div class="current-work-row">
+<span class="work-index">04</span>
+<strong class="work-name">Path replanning</strong>
+<p>FieldVMC as a mechanism for runtime path replanning.</p>
+</div>
+<div class="current-work-row">
+<span class="work-index">05</span>
+<strong class="work-name">Self-Stabilizing Gossip</strong>
+<p>Weighted averages and medians, with loop detection extended to algorithms such as gradients.</p>
+</div>
+</div>
+
+---
+
+{{< slide class="closing-slide future-work-slide" transition="fade" >}}
 
 # Future work
 
 <div class="closing-layout">
 <div class="wrap-up single">
 
-<div class="wrap-col next-col">
 <ul class="closing-list">
-<li class="tied">Combine spatial organization and safety: <strong>complex shapes that grow and move</strong> without unsafe transients;</li>
 <li>Add the two missing building blocks: <strong>preemption and lifecycle</strong>, and <strong>permissions</strong> over collective behavior;</li>
 <li>Integrate the mechanisms into a <strong>CROS prototype</strong> in Collektive.</li>
 </ul>
-</div>
 
 </div>
-<figure class="next-figure">
-<img src="images/star-fieldvmc.png" alt="A star-shaped structure grown by FieldVMC in the Alchemist simulator">
-<figcaption><strong>Shapes already grow</strong><span>next: moving them safely</span></figcaption>
-</figure>
 </div>
 
 <p class="final-line">Make the swarm programmable as one system, while keeping its adaptation explicit and safe.</p>
 
+{{% spacer %}}
+
 <div class="closing-mark footer">
 <img src="images/qr.png" alt="QR code linking to my personal portfolio">
-<p>Personal portfolio</p>
+<a href="https://angelacorte.github.io/angelacorte/">Personal portfolio</a>
 </div>
+
+---
+
+{{< slide class="scientific-activities-slide" transition="fade" >}}
+
+<p class="eyebrow">Scientific activities</p>
+
+# Service, teaching, and community
+
+<div class="activities-layout">
+<div class="activities-contribution">
+
+<div class="activity-block academic-service">
+<p class="activity-label">Academic service</p>
+<ul class="activity-list">
+<li><strong>Publicity Chair</strong><span>ACSOS 2026</span></li>
+<li><strong>Reviewer</strong><span>Complex &amp; Intelligent Systems · Q1 · 2026</span></li>
+<li><strong>Artifact Evaluation Committee</strong><span>FormaliSE 2026</span></li>
+</ul>
+</div>
+
+<div class="activities-bottom-row">
+<div class="activity-block teaching">
+<p class="activity-label">Teaching</p>
+<div class="teaching-item">
+<span class="activity-date">Sep 2025 – present</span>
+<strong>Programmazione ad Oggetti</strong>
+</div>
+<div class="teaching-item">
+<span class="activity-date">Jan – Sep 2025</span>
+<strong>Architetture degli Elaboratori</strong>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="activities-community">
+<div class="community-intro">
+<strong>7</strong>
+<span>scientific events attended</span>
+</div>
+
+<div class="event-group conferences">
+<p class="activity-label">Conferences</p>
+<ul class="event-list">
+<li><strong>ACSOS 2026</strong><span>Cesena, Italy</span></li>
+<li><strong>DCOSS-IoT 2026</strong><span>Reykjavík, Iceland</span></li>
+<li><strong>WOA 2026</strong><span>Salerno, Italy</span></li>
+<li><strong>COORDINATION 2026</strong><span>Urbino, Italy</span></li>
+</ul>
+</div>
+
+<div class="event-group summer-schools">
+<p class="activity-label">Summer schools</p>
+<ul class="event-list compact">
+<li><strong>BISS 2025</strong><span>Bertinoro, Italy</span></li>
+<li><strong>SIESTA 2025</strong><span>Lugano, Switzerland</span></li>
+<li><strong>SPACERAISE 2025</strong><span>L'Aquila, Italy</span></li>
+</ul>
+</div>
+</div>
+</div>
+
+---
+
+{{< slide class="publication-slide" transition="fade" >}}
+
+<p class="eyebrow">Research output</p>
+
+# Publications
+
+- G. Aguzzi, M. Baiardi, **A. Cortecchia**, B. Miloradovic, A. Papadopoulos, D. Pianini, and M. Viroli, *"A Field-Based Approach for Runtime Replanning in Swarm Robotics Missions"*. (ACSOS 2025) <strong class="publication-award">BEST STUDENT PAPER AWARD</strong><br>DOI: [10.1109/ACSOS66086.2025.00017](https://doi.org/10.1109/ACSOS66086.2025.00017)
+- G. Aguzzi, L. Bacchini, M. Baiardi, R. Casadei, **A. Cortecchia**, D. Domini, N. Farabegoli, D. Pianini, M. Viroli, *"A Demonstrator for Self-organizing Robot Teams"* (COORDINATION 2025)<br>DOI: [10.1007/978-3-031-95589-1_12](https://doi.org/10.1007/978-3-031-95589-1_12)
+- M. Andruccioli, **A. Cortecchia**, D. Domini, N. Farabegoli, G. Delnevo, D. Pianini, R. Venanzi, M. Viroli, *"HarmoniKt: a Unifying Middleware for Heterogeneous Robot Fleets"* (CCNC 2026)<br>DOI: [10.1109/CCNC65079.2026.11366553](https://doi.org/10.1109/CCNC65079.2026.11366553)
+- **A. Cortecchia**, G. Ciatto, R. Casadei, and D. Pianini, *"FieldVMC: an asynchronous model and platform for self-organising morphogenesis of artificial structures"*. Complex Intell. Syst. (Q1) (2026)<br>DOI: [10.1007/s40747-025-02141-y](https://doi.org/10.1007/s40747-025-02141-y)
+- **A. Cortecchia**, D. Domini, G. Ciatto, R. Casadei, D. Pianini and M. Viroli, *"Flexible Distributed Particle Filtering for the Internet of Things via Aggregate Computing,"* (DCOSS-IoT 2026)<br>DOI: [10.48550/arXiv.2606.18483](https://doi.org/10.48550/arXiv.2606.18483)
+- **A. Cortecchia**, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, *"Multi-Target Tracking via Field-Based Distributed Particle Filtering"* (ACSOS 2026) <strong class="publication-award">BEST COMPANION ARTIFACT AWARD</strong><br>DOI: TBD
+- **A. Cortecchia**, A. Papadopoulos, and D. Pianini *"Toward Safe Aggregate Computing: A Distributed Control-Theoretic Safety Filter for Robot Swarms"* (ACSOS-C 2026)<br>DOI: TBD
+- **A. Cortecchia**, *"Towards Collective Robotic Operating Systems through Aggregate Computing"* (ACSOS-C 2026)<br>DOI: TBD
+- **A. Cortecchia**, D. Pianini, and M. Viroli, *"Self-Stabilizing Min-Max Gossip for Aggregate Computing"* (COORDINATION 2026)<br>DOI: [10.1007/978-3-032-28358-0_5](https://doi.org/10.1007/978-3-032-28358-0_5)
+- F. Gurioli, M. Baiardi, **A. Cortecchia**, D. Pianini, *"High-Fidelity Simulation of Aggregate Computing Systems with Collektivity"* (COORDINATION 2026)<br>DOI: [10.1007/978-3-032-28358-0_13](https://doi.org/10.1007/978-3-032-28358-0_13)
+- N. Farabegoli, G. Aguzzi, M. Baiardi, **A. Cortecchia**, D. Domini, D. Pianini, M. Viroli. *"Project Emerge: A demonstrator for self-organizing robot teams"*, Science of Computer Programming (Q3) (2027)<br>DOI: [10.1016/j.scico.2026.103559](https://doi.org/10.1016/j.scico.2026.103559)
