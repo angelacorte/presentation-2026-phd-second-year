@@ -86,6 +86,12 @@ program runs decentralized on every device, which repeatedly:
 
 <img src="images/collective.svg" alt="Local device interactions producing collective behavior">
 
+<div class="field-note">
+<p class="field-title">The abstraction: computational fields</p>
+<p>A <strong>computational field</strong> is a distributed data structure that maps every device of the network to a local value.</p>
+<p>Behavior is built by <strong>composing operators over fields</strong> &mdash; spread a value, aggregate it, restrict it to a region &mdash; instead of writing code device by device.</p>
+</div>
+
 {{% /col %}}
 {{% /multicol %}}
 
@@ -177,31 +183,143 @@ program runs decentralized on every device, which repeatedly:
 
 {{< slide class="portfolio-slide" transition="fade" >}}
 
-<p class="eyebrow">Main thesis contributions 2/5</p>
+<p class="eyebrow">Main thesis contributions 1/5</p>
+
+# FieldVMC <span class="ref-mark">[1]</span>
+
+<p class="capability"><span class="capability-name">Resource management</span><span class="capability-desc">Supporting self-organizing morphogenesis of artificial structures</span></p>
 
 <div class="result-grid pair">
-<figure>
-<h2>Resource management</h2>
+
+<figure class="demo">
 <img src="images/oneroot.gif" alt="FieldVMC structures growing and branching from local interactions">
-<figcaption><strong>FieldVMC [1]</strong>
+<figcaption>
 <span class="detail">Structures grow, branch and repair from a local flow of resources, with no global blueprint.</span>
 <span class="detail alt">Resources are routed towards the most successful area of the network.</span>
 </figcaption>
 </figure>
-<figure>
-<h2>Adaptation</h2>
-<img src="images/replanning.gif" alt="A swarm redistributing tasks after losing a robot">
-<figcaption><strong>Runtime replanning [2]</strong>
-<span class="detail">A mission is assigned to the swarm; when a robot is lost, its tasks are redistributed among the survivors.</span>
-<span class="detail alt">The plan is repaired by the collective while it operates, without re-running a global planner.</span>
-</figcaption>
+
+<div class="findings">
+
+<ul class="finding-list">
+<li><strong>Asynchronous and decentralized</strong>, over arbitrary network topologies</li>
+<li>Structures <strong>merge, split and reorganize</strong> as conditions change</li>
+<li>Faster convergence than VMC, with new self-organizing behaviors: <em>self-integration</em>, <em>self-division</em>, <em>self-optimization</em></li>
+</ul>
+
+<figure class="evidence">
+<img src="images/self-optimization.png" alt="Number of nodes over time converging to a similar value from six different initial sizes">
+<figcaption><span class="detail">Widely different initial configurations converge towards similar resource-efficient structures.</span></figcaption>
 </figure>
+
+</div>
+
 </div>
 
 {{% footer %}}
 [1] A. Cortecchia, G. Ciatto, R. Casadei, and D. Pianini, *"FieldVMC: an asynchronous model and platform for self-organising morphogenesis of artificial structures"*. Complex Intell. Syst. 12(2) (2026)
+{{% /footer %}}
 
+---
+
+{{< slide class="portfolio-slide" transition="fade" >}}
+
+<p class="eyebrow">Main thesis contributions 2/5</p>
+
+# Runtime replanning <span class="ref-mark">[2]</span>
+
+<p class="capability"><span class="capability-name">Adaptation</span><span class="capability-desc">A field-based approach for runtime replanning in swarm robotics missions</span></p>
+
+<div class="result-grid pair">
+
+<figure class="demo">
+<img src="images/replanning.gif" alt="A swarm redistributing tasks after losing a robot">
+<figcaption>
+<span class="detail">A mission is assigned to the swarm; when a robot is lost, its tasks are redistributed among the survivors.</span>
+<span class="detail alt">The plan is repaired by the collective while it operates, without re-running a global planner.</span>
+</figcaption>
+</figure>
+
+<div class="findings">
+
+<ul class="finding-list">
+<li>Two field-based strategies: fully distributed <strong>gossip</strong> and dynamic <strong>leader election</strong></li>
+<li>With sufficient connectivity, both beat late-stage replanning and approach the centralized <em>Oracle</em></li>
+<li>Gossip is more resilient to frequent failures; leader-based coordination lowers replanning overhead</li>
+</ul>
+
+<figure class="evidence plots">
+<div class="plot-row">
+<div class="plot"><span class="plot-label">Gossip</span><img src="images/replanning-gossip.png" alt="Bar chart of gossip-based replanning against Oracle and baseline"></div>
+<div class="plot"><span class="plot-label">Leader election</span><img src="images/replanning-leader.png" alt="Bar chart of leader-based replanning against Oracle and baseline"></div>
+</div>
+<ul class="plot-key">
+<li><span class="key-swatch oracle"></span>Oracle</li>
+<li><span class="key-swatch r-inf"></span>R&nbsp;=&nbsp;&infin;</li>
+<li><span class="key-swatch r-100"></span>R&nbsp;=&nbsp;100</li>
+<li><span class="key-swatch r-50"></span>R&nbsp;=&nbsp;50</li>
+<li><span class="key-swatch r-20"></span>R&nbsp;=&nbsp;20</li>
+<li><span class="key-swatch baseline"></span>Baseline</li>
+</ul>
+<figcaption><span class="detail">20 nodes, task factor 2.0; both strategies stay close to the Oracle as the range grows.</span></figcaption>
+</figure>
+
+</div>
+
+</div>
+
+{{% footer %}}
 [2] G. Aguzzi, M. Baiardi, A. Cortecchia, B. Miloradovic, A. Papadopoulos, D. Pianini, and M. Viroli, *"A Field-Based Approach for Runtime Replanning in Swarm Robotics Missions"*. (ACSOS 2025)
+{{% /footer %}}
+
+---
+
+{{< slide class="portfolio-slide" transition="fade" >}}
+
+<p class="eyebrow">Main thesis contributions 3/5</p>
+
+# Field-based distributed particle filtering <span class="ref-mark">[3, 4]</span>
+
+<p class="capability"><span class="capability-name">Monitoring</span><span class="capability-desc">Tracking multiple targets from noisy, distributed observations</span></p>
+
+<div class="result-grid pair">
+
+<figure class="demo">
+<img src="images/dpf.gif" alt="Field-based distributed particle filtering tracking multiple targets">
+<figcaption>
+<span class="detail">Several targets tracked from noisy observations, with observers that move and lose connectivity.</span>
+<span class="detail alt">Filtering is decoupled from coordination: where fusion happens and how information propagates become design choices, reconfigurable at runtime.</span>
+</figcaption>
+</figure>
+
+<div class="findings">
+
+<ul class="finding-list">
+<li>Local cooperation <strong>improves tracking accuracy</strong></li>
+<li>Leader-based fusion <strong>recovers after failures</strong>, with leaders re-elected at runtime</li>
+<li>Mobile observers <strong>adapt their spatial configuration</strong> while tracking</li>
+</ul>
+
+<figure class="evidence tall">
+<img src="images/three_zebras_fc_failure_plot.png" alt="Estimated and real trajectories of three tracked targets, with fusion-center failures marked">
+<ul class="plot-key">
+<li><span class="key-line"></span>Real trajectory</li>
+<li><span class="key-dot estimated"></span>Estimated</li>
+<li><span class="key-dot start"></span>Start</li>
+<li><span class="key-dot end"></span>End</li>
+<li><span class="key-cross">&times;</span>Fusion-center failure</li>
+</ul>
+<figcaption><span class="detail">Three targets tracked across repeated fusion-center failures.</span></figcaption>
+</figure>
+
+</div>
+
+</div>
+
+{{% footer %}}
+[3] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, D. Pianini and M. Viroli, *"Flexible Distributed Particle Filtering for the Internet of Things via Aggregate Computing,"* (DCOSS-IoT 2026)
+
+[4] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, *"Multi-Target Tracking via Field-Based Distributed Particle Filtering"* (ACSOS 2026)
 {{% /footer %}}
 
 ---
@@ -210,30 +328,38 @@ program runs decentralized on every device, which repeatedly:
 
 <p class="eyebrow">Main thesis contributions 4/5</p>
 
+# Self-stabilizing min-max gossip <span class="ref-mark">[5]</span>
+
+<p class="capability"><span class="capability-name">Consensus</span><span class="capability-desc">A gossip algorithm that converges to the best value in the network from any state</span></p>
+
 <div class="result-grid pair">
-<figure>
-<h2>Monitoring</h2>
-<img src="images/dpf.gif" alt="Field-based distributed particle filtering tracking multiple targets">
-<figcaption><strong>Field-based distributed particle filtering [3, 4]</strong>
-<span class="detail">Several targets tracked from noisy observations, with observers that move and lose connectivity.</span>
-<span class="detail alt">Where fusion happens, who leads, how far information travels: coordination is decoupled from the filtering logic, so it can be changed without redesigning the estimator.</span>
-</figcaption>
-</figure>
-<figure>
-<h2>Consensus</h2>
+
+<figure class="demo">
 <img src="images/gossip.gif" alt="Self-stabilizing min-max gossip converging over a network">
-<figcaption><strong>Self-stabilizing min&ndash;max gossip [5]</strong>
-<span class="detail">The best value in the network wins, and the collective converges to it from any state.</span>
+<figcaption>
+<span class="detail">The best available value propagates through the network, and the collective reconverges after arbitrary transient states.</span>
 <span class="detail alt">Each message carries the path of nodes that acknowledged it: that is what lets stale contributions be pruned, which classical min&ndash;max gossip cannot do.</span>
 </figcaption>
 </figure>
+
+<div class="findings">
+
+<ul class="finding-list">
+<li><strong>Fully decentralized</strong>: no leader, global reset, timestamps or coordinated epochs</li>
+<li>Recovers after <strong>topology changes and transient faults</strong></li>
+<li><strong>Lower communication overhead</strong> than time-replicated gossip</li>
+</ul>
+
+<figure class="evidence">
+<img src="images/comparison-100nodes-message-size.png" alt="Overall data rate over time for self-stabilizing, non-stabilizing and time-replicated gossip">
+<figcaption><span class="detail">Data rate across cut, range-change and merge events: self-stabilization costs a fraction of time replication.</span></figcaption>
+</figure>
+
+</div>
+
 </div>
 
 {{% footer %}}
-[3] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, D. Pianini and M. Viroli, *"Flexible Distributed Particle Filtering for the Internet of Things via Aggregate Computing,"* (DCOSS-IoT 2026)
-
-[4] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, *"Multi-Target Tracking via Field-Based Distributed Particle Filtering"* (ACSOS 2026)
-
 [5] A. Cortecchia, D. Pianini, and M. Viroli, *"Self-Stabilizing Min-Max Gossip for Aggregate Computing"* (COORDINATION 2026)
 {{% /footer %}}
 
@@ -243,9 +369,9 @@ program runs decentralized on every device, which repeatedly:
 
 <p class="eyebrow">Main thesis contributions 5/5</p>
 
-# CAROL: Coordinated Aggregate Robotics with Online control Lyapunov and barrier functions [6]
+# CAROL: Coordinated Aggregate Robotics with Online control Lyapunov and barrier functions <span class="ref-mark">[6]</span>
 
-#### A safety filter between collective strategy and actuation
+<p class="capability"><span class="capability-name">Safety</span><span class="capability-desc">A safety filter between collective strategy and actuation</span></p>
 
 
 <div class="layer-explainer">

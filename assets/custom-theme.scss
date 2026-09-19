@@ -897,7 +897,20 @@ $deckFooterText: "Cortecchia A. - Advances in Collective Robotics Through Macro-
 
 // Filter slide: tighter title so the two scenarios can run large.
 .reveal .filter-slide h1 {
-	margin-bottom: 24px;
+	font-size: 1.34em;
+	line-height: 1.02;
+	margin-bottom: 16px;
+	max-width: 1420px;
+}
+
+.reveal .filter-slide h4 {
+	color: var(--navy);
+	font-size: 0.68em;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+	line-height: 1.15;
+	margin: 0 0 20px;
+	text-transform: none;
 }
 
 // Closing slide: the FieldVMC shape, tied to the first future-work item.
@@ -1210,4 +1223,365 @@ $deckFooterText: "Cortecchia A. - Advances in Collective Robotics Through Macro-
 	font-size: 0.48em;
 	line-height: 1.2;
 	margin-top: 5px;
+}
+
+// =====================================================================
+// Contribution slides (1/5 - 5/5): one shared anatomy.
+// Title + capability line, then "what you see" on the left and
+// "what we found" plus its evidence plot on the right.
+// =====================================================================
+.reveal .portfolio-slide h1,
+.reveal .filter-slide h1 {
+	font-size: 1.3em;
+	margin: 0 0 12px;
+}
+
+.reveal .ref-mark {
+	color: var(--muted);
+	font-size: 0.56em;
+	font-weight: 600;
+	letter-spacing: 0;
+	vertical-align: 0.3em;
+}
+
+.reveal .capability {
+	align-items: baseline;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	margin: 0 0 22px;
+}
+
+.reveal .capability-name {
+	border-left: 6px solid var(--cyan);
+	color: var(--navy);
+	font-size: 0.58em;
+	font-weight: 750;
+	letter-spacing: 0.06em;
+	padding-left: 14px;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.reveal .capability-desc {
+	color: var(--muted);
+	font-size: 0.6em;
+	line-height: 1.2;
+}
+
+// Grid: demo on the left, findings on the right.
+.reveal .portfolio-slide .result-grid.pair {
+	align-items: start;
+	gap: 64px;
+	margin: 0 auto;
+	max-width: 1700px;
+}
+
+.reveal .portfolio-slide .demo,
+.reveal .portfolio-slide .evidence {
+	margin: 0;
+	min-width: 0;
+}
+
+.reveal .portfolio-slide .demo img {
+	background: var(--paper);
+	border: 2px solid var(--line);
+	display: block;
+	height: 500px;
+	margin: 0 auto;
+	max-width: 100%;
+	object-fit: contain;
+	width: auto;
+}
+
+.reveal .portfolio-slide .demo figcaption {
+	border-top: 5px solid var(--cyan);
+	padding: 14px 0 0;
+}
+
+.reveal .portfolio-slide .demo .detail {
+	color: var(--ink);
+	font-size: 0.62em;
+	line-height: 1.3;
+	margin-top: 0;
+}
+
+.reveal .portfolio-slide .demo .detail.alt {
+	background: var(--ice);
+	border-left: 4px solid var(--cyan);
+	color: var(--muted);
+	margin-top: 14px;
+	padding: 12px 16px;
+}
+
+// Right-hand column.
+.reveal .portfolio-slide .findings {
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+	min-width: 0;
+}
+
+.reveal .portfolio-slide .finding-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.reveal .portfolio-slide .finding-list li {
+	border-bottom: 1px solid var(--line);
+	color: var(--ink);
+	font-size: 0.68em;
+	line-height: 1.3;
+	margin: 0;
+	padding: 0 0 12px 28px;
+	position: relative;
+}
+
+.reveal .portfolio-slide .finding-list li + li {
+	padding-top: 12px;
+}
+
+.reveal .portfolio-slide .finding-list li::before {
+	color: var(--cyan);
+	content: "\25B8";
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.reveal .portfolio-slide .finding-list li + li::before {
+	top: 12px;
+}
+
+.reveal .portfolio-slide .finding-list li:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+// Evidence plot under (or beside) the findings.
+.reveal .portfolio-slide .evidence img {
+	background: var(--paper);
+	border: 1px solid var(--line);
+	display: block;
+	height: 410px;
+	margin: 0 auto;
+	max-width: 100%;
+	object-fit: contain;
+	width: auto;
+}
+
+.reveal .portfolio-slide .evidence figcaption {
+	border-top: 2px solid var(--line);
+	padding: 10px 0 0;
+}
+
+.reveal .portfolio-slide .evidence .detail {
+	color: var(--muted);
+	font-size: 0.5em;
+	line-height: 1.28;
+	margin-top: 0;
+}
+
+// Two plots plus a shared legend (runtime replanning).
+.reveal .portfolio-slide .evidence.plots .plot-row {
+	display: grid;
+	gap: 26px;
+	grid-template-columns: 1fr 1fr;
+}
+
+.reveal .portfolio-slide .evidence.plots .plot-label {
+	color: var(--navy);
+	display: block;
+	font-size: 0.46em;
+	font-weight: 750;
+	letter-spacing: 0.08em;
+	margin-bottom: 4px;
+	text-transform: uppercase;
+}
+
+.reveal .portfolio-slide .evidence.plots .plot img {
+	height: auto;
+	width: 100%;
+}
+
+.reveal .portfolio-slide .evidence.plots .plot-legend {
+	border: 0;
+	height: 52px;
+	margin: 10px auto 0;
+	object-fit: contain;
+	width: auto;
+	max-width: 100%;
+}
+
+// Portrait-shaped plot: its baked-in legend is cropped away and redrawn
+// below the figure, so the plot itself can stay as large as possible.
+.reveal .portfolio-slide .evidence.tall img {
+	height: 440px;
+}
+
+.reveal .portfolio-slide .plot-key {
+	column-gap: 30px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	list-style: none;
+	margin: 14px 0 0;
+	padding: 0;
+	row-gap: 6px;
+}
+
+.reveal .portfolio-slide .plot-key li {
+	align-items: center;
+	border: 0;
+	color: var(--ink);
+	display: flex;
+	font-size: 0.46em;
+	gap: 9px;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+}
+
+.reveal .portfolio-slide .plot-key li::before {
+	content: none;
+}
+
+.reveal .portfolio-slide .plot-key .key-line {
+	border-top: 3px dashed #9aa5b1;
+	display: inline-block;
+	width: 26px;
+}
+
+.reveal .portfolio-slide .plot-key .key-dot {
+	border-radius: 50%;
+	display: inline-block;
+	height: 14px;
+	width: 14px;
+}
+
+.reveal .portfolio-slide .plot-key .key-dot.estimated {
+	background: #6c2c84;
+}
+
+.reveal .portfolio-slide .plot-key .key-dot.start {
+	background: #008000;
+}
+
+.reveal .portfolio-slide .plot-key .key-dot.end {
+	background: #e01b1b;
+}
+
+.reveal .portfolio-slide .plot-key .key-cross {
+	color: #e01b1b;
+	font-size: 1.35em;
+	font-weight: 700;
+	line-height: 1;
+}
+
+// Safety-filter slide shares the same capability line.
+.reveal .filter-slide .capability {
+	margin-bottom: 18px;
+}
+
+// Aggregate Computing slide: what a computational field is.
+.reveal .aggregate-slide .collective-visual img {
+	max-height: 390px;
+}
+
+.reveal .field-note {
+	background: var(--ice);
+	border-left: 6px solid var(--cyan);
+	margin: 34px 0 0;
+	padding: 20px 26px 22px;
+	text-align: left;
+}
+
+.reveal .field-note p {
+	color: var(--ink);
+	font-size: 0.68em;
+	line-height: 1.3;
+	margin: 0;
+}
+
+.reveal .field-note p + p {
+	margin-top: 13px;
+}
+
+.reveal .field-note .field-title {
+	color: var(--navy);
+	font-size: 0.6em;
+	font-weight: 750;
+	letter-spacing: 0.08em;
+	margin: 0 0 13px;
+	text-transform: uppercase;
+}
+
+// Give the narrative more room than the visual on this slide.
+.reveal .aggregate-slide .row.split {
+	grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
+}
+
+// Aggregate Computing slide: the per-round loop as a clean numbered list,
+// flush with the paragraph above and with a hanging indent.
+.reveal .aggregate-slide .copy-col ol {
+	counter-reset: round-step;
+	list-style: none;
+	margin: 22px 0 0;
+	padding: 0;
+}
+
+.reveal .aggregate-slide .copy-col ol li {
+	align-items: center;
+	color: var(--ink);
+	counter-increment: round-step;
+	display: grid;
+	font-size: 0.88em;
+	gap: 20px;
+	grid-template-columns: 42px minmax(0, 1fr);
+	line-height: 1.25;
+	margin: 0 0 16px;
+	padding: 0;
+}
+
+.reveal .aggregate-slide .copy-col ol li:last-child {
+	margin-bottom: 0;
+}
+
+.reveal .aggregate-slide .copy-col ol li::before {
+	align-items: center;
+	background: var(--ice);
+	border-radius: 50%;
+	color: var(--navy);
+	content: counter(round-step);
+	display: flex;
+	font-size: 0.76em;
+	font-weight: 750;
+	height: 42px;
+	justify-content: center;
+	line-height: 1;
+	width: 42px;
+}
+
+.reveal .aggregate-slide .takeaway {
+	margin-top: 40px;
+}
+
+// Bar-chart legend, redrawn in HTML so it spans both panels.
+.reveal .portfolio-slide .plot-key .key-swatch {
+	border-radius: 3px;
+	display: inline-block;
+	height: 16px;
+	width: 26px;
+}
+
+.reveal .portfolio-slide .plot-key .key-swatch.oracle   { background: #176d9c; }
+.reveal .portfolio-slide .plot-key .key-swatch.r-inf    { background: #c38820; }
+.reveal .portfolio-slide .plot-key .key-swatch.r-100    { background: #158a6a; }
+.reveal .portfolio-slide .plot-key .key-swatch.r-50     { background: #ba611b; }
+.reveal .portfolio-slide .plot-key .key-swatch.r-20     { background: #c182b5; }
+.reveal .portfolio-slide .plot-key .key-swatch.baseline { background: #bd926e; }
+
+.reveal .portfolio-slide .evidence.plots .plot-key {
+	margin-top: 18px;
 }
