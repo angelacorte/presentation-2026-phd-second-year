@@ -63,20 +63,23 @@ A robotic collective must pursue a **system-level goal** with only local views a
 {{% /multicol %}}
 
 {{% note %}}
-A robotic collective has to pursue a goal that only makes sense at the system level —
-cover an area, track a set of targets, hold a formation — while every single robot only
-ever sees its own neighborhood. There is no central point of coordination: not because we
-forgot to add one, but because in these deployments a central point is exactly what fails
-first.
+Think about a swarm of drones on a mission. For example, monitoring a crowded area, tracking
+something that moves, holding a formation.
 
-And the system does not hold still. The robots are heterogeneous, they move, they fail,
-they join and they leave. Connectivity and sensing change while the mission is running.
-And, unlike a distributed system made of servers, here a wrong transient is not a slow
-response: it is two robots colliding, or the swarm splitting into two disconnected halves.
+But in these scenarios the set of devices is usually heterogeneous, so there are devices with
+different capabilities: some may fly, some may be fixed in the environment, some may be
+ground-based.
 
-So the engineering question is not only *which coordination algorithm do I write*. It is
-*what does the collective need underneath it, at runtime*, so that the algorithm can keep
-working while all of this happens.
+However, the mission is viewed as a global goal — "cover this area" — without saying where
+the devices should be.
+
+While the mission is running there is usually no a-priori knowledge of the environment, thus
+different unexpected events may occur: devices may fail or join the network, obstacles may
+appear, the network may be interrupted.
+
+We need a system that is resilient to all those events and that is able to self-organize to
+reach its goal, without the need for an external intervention that continuously tells the
+devices what to do, and without a centralized controller.
 {{% /note %}}
 
 ---
@@ -185,13 +188,15 @@ the same devices. It needs an authorized operator who can stop one of them or sw
 another, while the swarm is flying. And it needs constraints that hold *during* the
 transient, not only at the fixed point.
 
-This is exactly the gap my research proposal identified two years ago. Let me quote the
-motivation almost literally: typical aggregate applications run a single, complex algorithm,
-but there are scenarios where algorithms must be added, removed or manipulated at runtime
-without affecting the others. The example in the proposal was crowd management — law
-enforcement needing to alter the movement of a *portion* of the crowd to prevent congestion.
+Come back to that swarm for a moment. Halfway through the mission, the operator needs part of
+it to stop covering and start doing something else. Now. Only over that sector. And only
+because it is the operator asking, and not somebody else.
 
-That is a process being preempted. Which is an operating-system concern.
+Every word there is an operating-system word: stop, start, only there, only them. It is a
+process being preempted, by an authority. And it is almost verbatim the motivation in my
+research proposal two years ago — typical aggregate applications run a single, complex
+algorithm, but there are scenarios where algorithms must be added, removed or manipulated at
+runtime without affecting the others.
 {{% /note %}}
 
 ---
