@@ -1613,3 +1613,22 @@ $deckFooterText: "Cortecchia A. - Advances in Collective Robotics Through Macro-
 .reveal .title-copy h1 {
 	font-size: 1.6em;
 }
+
+// Open challenges: one line pinning down what "process" means on this slide.
+.reveal .process-note {
+	border-left: 4px solid var(--line);
+	color: var(--muted);
+	font-size: 0.58em;
+	line-height: 1.3;
+	margin: -10px 0 24px;
+	max-width: 1500px;
+	padding: 4px 0 4px 18px;
+}
+
+.reveal .process-note strong {
+	color: var(--navy);
+}
+
+.reveal .open-slide .comparison li {
+	font-size: 0.94em;
+}
