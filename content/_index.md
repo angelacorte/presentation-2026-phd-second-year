@@ -25,17 +25,12 @@ Supervisor: <em>Prof. Danilo Pianini</em><br>Co-supervisor: <em>Prof. Mirko Viro
 </div>
 
 {{% note %}}
-**[Title — *Advances in Collective Robotics Through Macro-Programming* (0:30)]**
-
-Good morning, and thank you for being here.
 
 I am Angela Cortecchia, second-year PhD student under the supervision of Professor Danilo
 Pianini and Professor Mirko Viroli, with Professor Enrico Gallinucci as committee member.
 
 My doctoral research asks how macro-programming can support the engineering of collective
-robotic systems. In the next fifteen minutes I will set out the problem, tell you where my
-research proposal placed it, show you the five contributions I have produced so far, and
-say what is left for the third year.
+robotic systems.
 {{% /note %}}
 
 ---
@@ -69,8 +64,6 @@ A robotic collective must pursue a **system-level goal** with only local views a
 {{% /multicol %}}
 
 {{% note %}}
-**[The engineering problem — *A swarm keeps changing while it operates* (1:10)]**
-
 Think about a swarm of drones on a mission. For example, monitoring a crowded area, tracking
 something that moves, holding a formation.
 
@@ -131,8 +124,6 @@ program runs asynchronously on every device, which in each round:
 {{% /multicol %}}
 
 {{% note %}}
-**[Programming abstraction — *Macro-programming the collective* (1:30)]**
-
 To program such systems, we need an abstraction that expresses what the collective has to
 achieve, rather than what each device has to do.
 
@@ -193,8 +184,6 @@ global behavior.
 <p class="takeaway centered">The runtime must support dynamic, safe, and authorized changes to the collective behavior.</p>
 
 {{% note %}}
-**[Research gap — *What is missing?* (1:30)]**
-
 Classic Aggregate Computing applications run **one** collective program, deployed once: a
 single behavior on each device, no preemption, no lifecycle management. And self-stabilization
 guarantees recovery *eventually* — it says nothing about what happens in the meantime, which
@@ -234,8 +223,8 @@ motivation I wrote in my research proposal two years ago.
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
-<span class="os-cap">Monitoring</span>
-<span class="os-mean">Collective state estimated from distributed, unreliable observations</span>
+<span class="os-cap">Distributed sensing</span>
+<span class="os-mean">Heterogeneous devices act as one sensor spread over the area</span>
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
@@ -277,8 +266,9 @@ So the way to ask what such a system must provide is to take each capability an 
 system gives a single machine, and ask what it becomes for a collective.
 
 Managing resources becomes routing them to the areas that need them most at a given moment,
-and re-routing them when that changes. Knowing the state
-of the machine becomes estimating it from distributed, unreliable observations. Recovering
+and re-routing them when that changes. Presenting one logical
+device on top of physical hardware becomes making many heterogeneous devices act as a single
+sensor. Recovering
 from a failed component becomes redistributing tasks when a device is lost. Keeping memory
 consistent becomes agreeing on a value that survives faults. Protecting the hardware becomes
 enforcing physical constraints while the collective is still moving. And running processes
@@ -300,7 +290,7 @@ manageable while robots, goals, and networks change?
 
 # FieldVMC <span class="ref-mark">[1]</span>
 
-<p class="capability"><span class="capability-name">Resource management</span><span class="capability-desc">Supporting self-organizing morphogenesis of artificial structures</span></p>
+<p class="capability"><span class="capability-name">Resource management</span><span class="capability-desc">Routing resources to where the collective needs them, through self-organizing morphogenesis</span></p>
 
 <div class="result-grid pair">
 
@@ -334,13 +324,14 @@ manageable while robots, goals, and networks change?
 {{% /footer %}}
 
 {{% note %}}
-The first mechanism is about growing structure where the collective needs it.
+The first mechanism is about putting resources where the collective needs them, and moving
+them when that changes.
 
 FieldVMC is an asynchronous, fully decentralized reformulation of the Vascular Morphogenesis
-Controller. What you see on the left is a structure that grows, branches and repairs itself
-purely from a local flow of resources — there is no global blueprint anywhere. Resources are
-routed towards whichever area of the network is being most successful, so the structure
-concentrates where it pays off.
+Controller. What you see on the left is a structure shaped purely by a local flow of resources
+— there is no global blueprint anywhere. Resources are routed towards whichever area of the
+network is being most successful at that moment, so the structure thickens where it pays off
+and thins out where it does not, and it keeps re-adapting as conditions change.
 
 Because it is asynchronous and field-based, it works over arbitrary network topologies, and
 structures can merge, split and reorganize as conditions change — behaviors that the
@@ -363,7 +354,7 @@ This work is published in Complex and Intelligent Systems.
 
 # Runtime replanning <span class="ref-mark">[2]</span>
 
-<p class="capability"><span class="capability-name">Adaptation</span><span class="capability-desc">A field-based approach for runtime replanning in swarm robotics missions</span></p>
+<p class="capability"><span class="capability-name">Adaptation</span><span class="capability-desc">Repairing the plan while the swarm operates, with no central planner</span></p>
 
 <div class="result-grid pair">
 
@@ -436,7 +427,7 @@ This was presented at ACSOS 2025, and received the best student paper award.
 
 # Field-based distributed particle filtering <span class="ref-mark">[3, 4]</span>
 
-<p class="capability"><span class="capability-name">Monitoring</span><span class="capability-desc">Tracking multiple targets from noisy, distributed observations</span></p>
+<p class="capability"><span class="capability-name">Distributed sensing</span><span class="capability-desc">Many devices acting as one sensor, tracking multiple targets from noisy observations</span></p>
 
 <div class="result-grid pair">
 
@@ -479,8 +470,8 @@ This was presented at ACSOS 2025, and received the best student paper award.
 {{% /footer %}}
 
 {{% note %}}
-The third mechanism answers the proposal's "distributed sensors and actuators": making many
-unreliable observers behave as one collective sensor.
+The third mechanism is the one that makes many different devices behave as a single sensor:
+one logical instrument, made of whatever observers happen to be in the area.
 
 Distributed particle filtering is the standard tool for state estimation from noisy,
 non-Gaussian observations. The problem is that existing algorithms bake their architecture
@@ -510,7 +501,7 @@ mobile observers — which received the best companion artifact award.
 
 # Self-stabilizing min-max gossip <span class="ref-mark">[5]</span>
 
-<p class="capability"><span class="capability-name">Consensus</span><span class="capability-desc">A gossip algorithm that converges to the best value in the network from any state</span></p>
+<p class="capability"><span class="capability-name">Consensus</span><span class="capability-desc">The collective agrees on the best value, and recovers from any corrupted state</span></p>
 
 <div class="result-grid pair">
 
@@ -573,7 +564,7 @@ Published at COORDINATION 2026.
 
 # CAROL: Coordinated Aggregate Robotics with Online control Lyapunov and barrier functions <span class="ref-mark">[6]</span>
 
-<p class="capability"><span class="capability-name">Safety</span><span class="capability-desc">A safety filter between collective strategy and actuation</span></p>
+<p class="capability"><span class="capability-name">Safety</span><span class="capability-desc">Physical constraints enforced while the collective is still moving</span></p>
 
 
 <div class="layer-explainer">
