@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/presentation-2026-phd-second-year/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/presentation-2026-phd-second-year/reveal-js/dist/reveal.css">
-  <link rel="stylesheet" href="/presentation-2026-phd-second-year/css/custom-theme.min.ad427ca3e99243e186687f57f65af46d7e3bea460492dd4d79bb0f364d3b9df3.css" id="theme"><link rel="stylesheet" href="/presentation-2026-phd-second-year/highlight-js/solarized-dark.min.css">
+  <link rel="stylesheet" href="/presentation-2026-phd-second-year/css/custom-theme.min.ff2b15d39261a64d9c1e8cf528ed888932bde2e173443fb979d966d052ac86d4.css" id="theme"><link rel="stylesheet" href="/presentation-2026-phd-second-year/highlight-js/solarized-dark.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
@@ -91,29 +91,28 @@ devices what to do, and without a centralized controller.</p>
 <section data-noprocess="" data-shortcode-slide="" class="aggregate-slide" data-transition="fade">
   
 <p class="eyebrow">Programming abstraction</p>
-<h1 id="one-program-for-the-whole-collective">One program for the whole collective</h1>
+<h1 id="macro-programming-the-collective">Macro-programming the collective</h1>
 
 <div class="container w-100 m-0 p-0">
     <div class="row split"><div class="col copy-col"><p class="today">
 <span class="today-label">Current approach</span>
 <strong>Each robot is programmed individually</strong>
-<span class="today-detail">ROS is a common example. With hundreds of robots, this does not scale.</span>
+<span class="today-detail">ROS is a common example. With hundreds of heterogeneous devices, the description does not scale, and failures must be handled one by one.</span>
 </p>
 <p>With <strong>Aggregate Computing</strong> the collective is programmed as a whole, and the same
-program runs decentralized on every device, which repeatedly:</p>
+program runs asynchronously on every device, which in each round:</p>
 <ol>
-<li>senses local information;</li>
-<li>exchanges data with its neighbors;</li>
-<li>runs the same aggregate program;</li>
-<li>acts on its local result.</li>
+<li><strong>senses</strong> its own sensors and the latest messages from its neighbors;</li>
+<li><strong>evaluates</strong> the same aggregate program on that context;</li>
+<li><strong>acts</strong> on the result, and shares it with its neighbors.</li>
 </ol>
 <p class="takeaway">Local executions compose into a global behavior.</p>
 </div>
 <div class="col visual-col collective-visual"><img src="images/collective.svg" alt="Local device interactions producing collective behavior">
 <div class="field-note">
-<p class="field-title">The abstraction: computational fields</p>
+<p class="field-title">Computational fields</p>
 <p>A <strong>computational field</strong> is a distributed data structure that maps every device of the network to a local value.</p>
-<p>Behavior is built by <strong>composing operators over fields</strong> — spread a value, aggregate it, restrict it to a region — instead of writing code device by device.</p>
+<p>Behavior is built by <strong>composing operators over fields</strong>: spread a value, aggregate it, restrict it to a region.</p>
 </div>
 </div>
 </div>
@@ -121,22 +120,26 @@ program runs decentralized on every device, which repeatedly:</p>
 
 
 
-<aside class="notes"><p>Today the common answer is to program each robot individually — ROS is the typical example.
-That works beautifully for one robot, or ten. With hundreds, the interactions you have to
-write by hand grow faster than you can reason about them.</p>
-<p>Aggregate Computing takes the opposite stance. You write one program for the collective as
-a whole, and the very same program runs, decentralized, on every device. Each device
-repeatedly senses its local context, exchanges data with its neighbors, runs the aggregate
-program, and acts on its own local result. No device is special.</p>
-<p>The abstraction that makes this work is the <strong>computational field</strong>: a distributed data
-structure that maps every device of the network to a local value. A field can be the
-distance to a target, the identity of the current leader, the estimate of where something
-is. Behavior is then built by composing operators over fields — spread a value through the
-network, aggregate it back, restrict it to a region — instead of writing code device by
-device.</p>
-<p>The important consequence is the one at the bottom of the slide: local executions compose
-into a global behavior, and that behavior is self-organizing and self-stabilizing by
-construction.</p>
+<aside class="notes"><p>To program such systems, we need an abstraction that expresses what the collective has to
+achieve, rather than what each device has to do.</p>
+<p>Classical approaches, such as ROS, define what each device should do individually. With a few
+devices this works quite well. With hundreds of heterogeneous devices, what does not scale is
+the description: the number of interactions we have to specify by hand grows with the number
+of devices and with their roles. And adaptation is not part of the model — failures have to be
+handled explicitly, one by one.</p>
+<p>There are macro-programming approaches that investigate the opposite point of view: the
+reasoning is global. A paradigm that does this is Aggregate Computing, where we write one
+program for the collective as a whole. The same program is executed asynchronously on every
+device, without a centralized controller.</p>
+<p>It is based on an abstraction called the <strong>computational field</strong>: a distributed data structure
+that maps each device of the network to its own value — for example, the distance to a target,
+or the identity of the current leader. We operate on those fields with specific operators, and
+those operators can be composed into more complex behaviors.</p>
+<p>Here each device independently senses local information, both from the environment and from
+the neighboring devices; then it evaluates its aggregate program on that information; then it
+acts on the result, and shares the latest information with its neighbors.</p>
+<p>And the consequence is the line at the bottom of the slide: local executions compose into a
+global behavior.</p>
 </aside>
 </section>
 
@@ -169,22 +172,21 @@ construction.</p>
 
 
 
-<aside class="notes"><p>Classic Aggregate Computing applications run <strong>one</strong> collective program, deployed once. A
-single behavior on each device; no preemption and no lifecycle management; and
-self-stabilization, which is a strong property, but one that guarantees recovery
-<em>eventually</em> — it says nothing about what happens in the meantime.</p>
-<p>A swarm mission needs something else. It needs several behaviors running concurrently on
-the same devices. It needs an authorized operator who can stop one of them or switch to
-another, while the swarm is flying. And it needs constraints that hold <em>during</em> the
-transient, not only at the fixed point.</p>
-<p>Come back to that swarm for a moment. Halfway through the mission, the operator needs part of
-it to stop covering and start doing something else. Now. Only over that sector. And only
-because it is the operator asking, and not somebody else.</p>
-<p>Every word there is an operating-system word: stop, start, only there, only them. It is a
-process being preempted, by an authority. And it is almost verbatim the motivation in my
-research proposal two years ago — typical aggregate applications run a single, complex
-algorithm, but there are scenarios where algorithms must be added, removed or manipulated at
-runtime without affecting the others.</p>
+<aside class="notes"><p>Classic Aggregate Computing applications run <strong>one</strong> collective program, deployed once: a
+single behavior on each device, no preemption, no lifecycle management. And self-stabilization
+guarantees recovery <em>eventually</em> — it says nothing about what happens in the meantime, which
+for robots is where the collisions are.</p>
+<p>Come back to that swarm. Halfway through the mission, the operator needs part of it to stop
+covering and start doing something else. Now. Only over that sector. And only because it is
+the operator asking, and not somebody else.</p>
+<p>Today there is no way to do this. The behavior of the collective is fixed when we deploy it,
+so changing it means putting a new program on every device — in a real scenario, landing the
+swarm, updating it, and flying the mission again from the start. What we want is to make that
+switch <strong>at runtime</strong>, while the collective keeps operating.</p>
+<p>Every word in that request is an operating-system word: stop, start, only there, only them.
+Suspending something that is running so that something else can take the devices is
+<em>preemption</em>; deciding who may ask for it is <em>permissions</em>. Which is, almost verbatim, the
+motivation I wrote in my research proposal two years ago.</p>
 </aside>
 </section>
 
@@ -198,12 +200,12 @@ runtime without affecting the others.</p>
 <div class="os-map">
 <div class="os-row">
 <span class="os-cap">Resource management</span>
-<span class="os-mean">Structures and resources grow where the collective needs them</span>
+<span class="os-mean">Resources routed where they are needed, and re-routed as the demand moves</span>
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
-<span class="os-cap">Monitoring</span>
-<span class="os-mean">Collective state estimated from distributed, unreliable observations</span>
+<span class="os-cap">Distributed sensing</span>
+<span class="os-mean">Heterogeneous devices act as one sensor spread over the area</span>
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
@@ -236,22 +238,23 @@ runtime without affecting the others.</p>
 
 
 
-<aside class="notes"><p>So the vision of the thesis is: the
-runtime support a collective needs looks remarkably like an operating system — but a
-<em>situated</em> one, where the classic OS concepts are stretched over space and time, and where
-a process occupies a region rather than a slice of CPU.</p>
-<p>What I am building is not the whole OS. It is the reusable set of mechanisms underneath it,
-and this table is the map I have been working against.</p>
-<p>The proposal named a handful of concerns. <strong>Distributed sensors and actuators</strong> — treating
-many devices as one collective sensor. Managing <strong>resources</strong> across the collective.
-Reacting when devices are <strong>lost</strong>. To these I would add two that the two years of work
-brought to the surface: keeping <strong>distributed state</strong> consistent and repairable, and
-<strong>safety</strong> during the transient — the latter came out of the period abroad, and the proposal
-had underestimated it.</p>
-<p>Five of these now have a mechanism, and those are the five contributions I will show you.
-Two do not: <strong>preemption and lifecycle</strong> — start, stop and switch collective processes — and
-<strong>permissions</strong> — who is allowed to change the behavior of the collective. Those are the
-third year.</p>
+<aside class="notes"><p>So, the vision. A <strong>Collective Robotic Operating System</strong> is a layer between the collective
+programs and the devices that run them. Its job is the job of any operating system: manage the
+resources, keep track of the state of the machine, decide what runs and who may change it.
+Except that the machine here is not one robot — it is the collective, spread over space.</p>
+<p>So the way to ask what such a system must provide is to take each capability an operating
+system gives a single machine, and ask what it becomes for a collective.</p>
+<p>Managing resources becomes routing them to the areas that need them most at a given moment,
+and re-routing them when that changes. Presenting one logical
+device on top of physical hardware becomes making many heterogeneous devices act as a single
+sensor. Recovering
+from a failed component becomes redistributing tasks when a device is lost. Keeping memory
+consistent becomes agreeing on a value that survives faults. Protecting the hardware becomes
+enforcing physical constraints while the collective is still moving. And running processes
+becomes starting, stopping and switching collective behaviors — with someone authorized to do
+it.</p>
+<p>That is this table. The first five already have a mechanism, and they are the five
+contributions I am about to show you. The last two do not, and they are the third year.</p>
 <p>So the research question is: how can reusable runtime mechanisms keep collective behavior
 manageable while robots, goals, and networks change?</p>
 </aside>
@@ -261,7 +264,7 @@ manageable while robots, goals, and networks change?</p>
   
 <p class="eyebrow">Main thesis contributions 1/5</p>
 <h1 id="fieldvmc-1">FieldVMC <span class="ref-mark">[1]</span></h1>
-<p class="capability"><span class="capability-name">Resource management</span><span class="capability-desc">Supporting self-organizing morphogenesis of artificial structures</span></p>
+<p class="capability"><span class="capability-name">Resource management</span><span class="capability-desc">Routing resources to where the collective needs them, through self-organizing morphogenesis</span></p>
 <div class="result-grid pair">
 <figure class="demo">
 <img src="images/oneroot.gif" alt="FieldVMC structures growing and branching from local interactions">
@@ -288,12 +291,13 @@ manageable while robots, goals, and networks change?</p>
 
 
 
-<aside class="notes"><p>The first mechanism is about growing structure where the collective needs it.</p>
+<aside class="notes"><p>The first mechanism is about putting resources where the collective needs them, and moving
+them when that changes.</p>
 <p>FieldVMC is an asynchronous, fully decentralized reformulation of the Vascular Morphogenesis
-Controller. What you see on the left is a structure that grows, branches and repairs itself
-purely from a local flow of resources — there is no global blueprint anywhere. Resources are
-routed towards whichever area of the network is being most successful, so the structure
-concentrates where it pays off.</p>
+Controller. What you see on the left is a structure shaped purely by a local flow of resources
+— there is no global blueprint anywhere. Resources are routed towards whichever area of the
+network is being most successful at that moment, so the structure thickens where it pays off
+and thins out where it does not, and it keeps re-adapting as conditions change.</p>
 <p>Because it is asynchronous and field-based, it works over arbitrary network topologies, and
 structures can merge, split and reorganize as conditions change — behaviors that the
 original centralized formulation could not express.</p>
@@ -310,7 +314,7 @@ convergence faster than the original VMC.</p>
   
 <p class="eyebrow">Main thesis contributions 2/5</p>
 <h1 id="runtime-replanning-2">Runtime replanning <span class="ref-mark">[2]</span></h1>
-<p class="capability"><span class="capability-name">Adaptation</span><span class="capability-desc">A field-based approach for runtime replanning in swarm robotics missions</span></p>
+<p class="capability"><span class="capability-name">Adaptation</span><span class="capability-desc">Repairing the plan while the swarm operates, with no central planner</span></p>
 <div class="result-grid pair">
 <figure class="demo">
 <img src="images/replanning.gif" alt="A swarm redistributing tasks after losing a robot">
@@ -369,7 +373,7 @@ That trade-off is a design knob, not a defect.</p>
   
 <p class="eyebrow">Main thesis contributions 3/5</p>
 <h1 id="field-based-distributed-particle-filtering-3-4">Field-based distributed particle filtering <span class="ref-mark">[3, 4]</span></h1>
-<p class="capability"><span class="capability-name">Monitoring</span><span class="capability-desc">Tracking multiple targets from noisy, distributed observations</span></p>
+<p class="capability"><span class="capability-name">Distributed sensing</span><span class="capability-desc">Many devices acting as one sensor, tracking multiple targets from noisy observations</span></p>
 <div class="result-grid pair">
 <figure class="demo">
 <img src="images/dpf.gif" alt="Field-based distributed particle filtering tracking multiple targets">
@@ -405,8 +409,8 @@ That trade-off is a design knob, not a defect.</p>
 
 
 
-<aside class="notes"><p>The third mechanism answers the proposal’s “distributed sensors and actuators”: making many
-unreliable observers behave as one collective sensor.</p>
+<aside class="notes"><p>The third mechanism is the one that makes many different devices behave as a single sensor:
+one logical instrument, made of whatever observers happen to be in the area.</p>
 <p>Distributed particle filtering is the standard tool for state estimation from noisy,
 non-Gaussian observations. The problem is that existing algorithms bake their architecture
 into the filter: whether there is a fusion center, who the leader is, how information
@@ -429,7 +433,7 @@ mobile observers — which received the best companion artifact award.</p>
   
 <p class="eyebrow">Main thesis contributions 4/5</p>
 <h1 id="self-stabilizing-min-max-gossip-5">Self-stabilizing min-max gossip <span class="ref-mark">[5]</span></h1>
-<p class="capability"><span class="capability-name">Consensus</span><span class="capability-desc">A gossip algorithm that converges to the best value in the network from any state</span></p>
+<p class="capability"><span class="capability-name">Consensus</span><span class="capability-desc">The collective agrees on the best value, and recovers from any corrupted state</span></p>
 <div class="result-grid pair">
 <figure class="demo">
 <img src="images/gossip.gif" alt="Self-stabilizing min-max gossip converging over a network">
@@ -478,7 +482,7 @@ approach costs a fraction of it.</p>
   
 <p class="eyebrow">Main thesis contributions 5/5</p>
 <h1 id="carol-coordinated-aggregate-robotics-with-online-control-lyapunov-and-barrier-functions-6">CAROL: Coordinated Aggregate Robotics with Online control Lyapunov and barrier functions <span class="ref-mark">[6]</span></h1>
-<p class="capability"><span class="capability-name">Safety</span><span class="capability-desc">A safety filter between collective strategy and actuation</span></p>
+<p class="capability"><span class="capability-name">Safety</span><span class="capability-desc">Physical constraints enforced while the collective is still moving</span></p>
 <div class="layer-explainer">
 <p><strong>Aggregate program</strong> · computes the wanted behavior</p>
 <p class="filtered"><strong>Safety filter</strong> · refines it into a feasible command</p>
