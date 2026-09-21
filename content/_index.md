@@ -25,11 +25,17 @@ Supervisor: <em>Prof. Danilo Pianini</em><br>Co-supervisor: <em>Prof. Mirko Viro
 </div>
 
 {{% note %}}
+**[Title — *Advances in Collective Robotics Through Macro-Programming* (0:30)]**
+
+Good morning, and thank you for being here.
+
 I am Angela Cortecchia, second-year PhD student under the supervision of Professor Danilo
 Pianini and Professor Mirko Viroli, with Professor Enrico Gallinucci as committee member.
 
 My doctoral research asks how macro-programming can support the engineering of collective
-robotic systems.
+robotic systems. In the next fifteen minutes I will set out the problem, tell you where my
+research proposal placed it, show you the five contributions I have produced so far, and
+say what is left for the third year.
 {{% /note %}}
 
 ---
@@ -63,6 +69,8 @@ A robotic collective must pursue a **system-level goal** with only local views a
 {{% /multicol %}}
 
 {{% note %}}
+**[The engineering problem — *A swarm keeps changing while it operates* (1:10)]**
+
 Think about a swarm of drones on a mission. For example, monitoring a crowded area, tracking
 something that moves, holding a formation.
 
@@ -88,7 +96,7 @@ devices what to do, and without a centralized controller.
 
 <p class="eyebrow">Programming abstraction</p>
 
-# One program for the whole collective
+# Macro-programming the collective
 
 {{% multicol class="split" %}}
 {{% col class="copy-col" %}}
@@ -96,16 +104,15 @@ devices what to do, and without a centralized controller.
 <p class="today">
 <span class="today-label">Current approach</span>
 <strong>Each robot is programmed individually</strong>
-<span class="today-detail">ROS is a common example. With hundreds of robots, this does not scale.</span>
+<span class="today-detail">ROS is a common example. With hundreds of heterogeneous devices, the description does not scale, and failures must be handled one by one.</span>
 </p>
 
 With **Aggregate Computing** the collective is programmed as a whole, and the same
-program runs decentralized on every device, which repeatedly:
+program runs asynchronously on every device, which in each round:
 
-1. senses local information;
-2. exchanges data with its neighbors;
-3. runs the same aggregate program;
-4. acts on its local result.
+1. **senses** its own sensors and the latest messages from its neighbors;
+2. **evaluates** the same aggregate program on that context;
+3. **acts** on the result, and shares it with its neighbors.
 
 <p class="takeaway">Local executions compose into a global behavior.</p>
 
@@ -115,34 +122,42 @@ program runs decentralized on every device, which repeatedly:
 <img src="images/collective.svg" alt="Local device interactions producing collective behavior">
 
 <div class="field-note">
-<p class="field-title">The abstraction: computational fields</p>
+<p class="field-title">Computational fields</p>
 <p>A <strong>computational field</strong> is a distributed data structure that maps every device of the network to a local value.</p>
-<p>Behavior is built by <strong>composing operators over fields</strong> &mdash; spread a value, aggregate it, restrict it to a region &mdash; instead of writing code device by device.</p>
+<p>Behavior is built by <strong>composing operators over fields</strong>: spread a value, aggregate it, restrict it to a region.</p>
 </div>
 
 {{% /col %}}
 {{% /multicol %}}
 
 {{% note %}}
-Today the common answer is to program each robot individually — ROS is the typical example.
-That works beautifully for one robot, or ten. With hundreds, the interactions you have to
-write by hand grow faster than you can reason about them.
+**[Programming abstraction — *Macro-programming the collective* (1:30)]**
 
-Aggregate Computing takes the opposite stance. You write one program for the collective as
-a whole, and the very same program runs, decentralized, on every device. Each device
-repeatedly senses its local context, exchanges data with its neighbors, runs the aggregate
-program, and acts on its own local result. No device is special.
+To program such systems, we need an abstraction that expresses what the collective has to
+achieve, rather than what each device has to do.
 
-The abstraction that makes this work is the **computational field**: a distributed data
-structure that maps every device of the network to a local value. A field can be the
-distance to a target, the identity of the current leader, the estimate of where something
-is. Behavior is then built by composing operators over fields — spread a value through the
-network, aggregate it back, restrict it to a region — instead of writing code device by
-device.
+Classical approaches, such as ROS, define what each device should do individually. With a few
+devices this works quite well. With hundreds of heterogeneous devices, what does not scale is
+the description: the number of interactions we have to specify by hand grows with the number
+of devices and with their roles. And adaptation is not part of the model — failures have to be
+handled explicitly, one by one.
 
-The important consequence is the one at the bottom of the slide: local executions compose
-into a global behavior, and that behavior is self-organizing and self-stabilizing by
-construction.
+There are macro-programming approaches that investigate the opposite point of view: the
+reasoning is global. A paradigm that does this is Aggregate Computing, where we write one
+program for the collective as a whole. The same program is executed asynchronously on every
+device, without a centralized controller.
+
+It is based on an abstraction called the **computational field**: a distributed data structure
+that maps each device of the network to its own value — for example, the distance to a target,
+or the identity of the current leader. We operate on those fields with specific operators, and
+those operators can be composed into more complex behaviors.
+
+Here each device independently senses local information, both from the environment and from
+the neighboring devices; then it evaluates its aggregate program on that information; then it
+acts on the result, and shares the latest information with its neighbors.
+
+And the consequence is the line at the bottom of the slide: local executions compose into a
+global behavior.
 {{% /note %}}
 
 ---
@@ -178,25 +193,26 @@ construction.
 <p class="takeaway centered">The runtime must support dynamic, safe, and authorized changes to the collective behavior.</p>
 
 {{% note %}}
-Classic Aggregate Computing applications run **one** collective program, deployed once. A
-single behavior on each device; no preemption and no lifecycle management; and
-self-stabilization, which is a strong property, but one that guarantees recovery
-*eventually* — it says nothing about what happens in the meantime.
+**[Research gap — *What is missing?* (1:30)]**
 
-A swarm mission needs something else. It needs several behaviors running concurrently on
-the same devices. It needs an authorized operator who can stop one of them or switch to
-another, while the swarm is flying. And it needs constraints that hold *during* the
-transient, not only at the fixed point.
+Classic Aggregate Computing applications run **one** collective program, deployed once: a
+single behavior on each device, no preemption, no lifecycle management. And self-stabilization
+guarantees recovery *eventually* — it says nothing about what happens in the meantime, which
+for robots is where the collisions are.
 
-Come back to that swarm for a moment. Halfway through the mission, the operator needs part of
-it to stop covering and start doing something else. Now. Only over that sector. And only
-because it is the operator asking, and not somebody else.
+Come back to that swarm. Halfway through the mission, the operator needs part of it to stop
+covering and start doing something else. Now. Only over that sector. And only because it is
+the operator asking, and not somebody else.
 
-Every word there is an operating-system word: stop, start, only there, only them. It is a
-process being preempted, by an authority. And it is almost verbatim the motivation in my
-research proposal two years ago — typical aggregate applications run a single, complex
-algorithm, but there are scenarios where algorithms must be added, removed or manipulated at
-runtime without affecting the others.
+Today there is no way to do this. The behavior of the collective is fixed when we deploy it,
+so changing it means putting a new program on every device — in a real scenario, landing the
+swarm, updating it, and flying the mission again from the start. What we want is to make that
+switch **at runtime**, while the collective keeps operating.
+
+Every word in that request is an operating-system word: stop, start, only there, only them.
+Suspending something that is running so that something else can take the devices is
+*preemption*; deciding who may ask for it is *permissions*. Which is, almost verbatim, the
+motivation I wrote in my research proposal two years ago.
 {{% /note %}}
 
 ---
