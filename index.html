@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/presentation-2026-phd-second-year/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/presentation-2026-phd-second-year/reveal-js/dist/reveal.css">
-  <link rel="stylesheet" href="/presentation-2026-phd-second-year/css/custom-theme.min.c1ee2abdab632c77f06953df42e1279010831bd7622070f0418b34fae2cfb1ca.css" id="theme"><link rel="stylesheet" href="/presentation-2026-phd-second-year/highlight-js/solarized-dark.min.css">
+  <link rel="stylesheet" href="/presentation-2026-phd-second-year/css/custom-theme.min.ad427ca3e99243e186687f57f65af46d7e3bea460492dd4d79bb0f364d3b9df3.css" id="theme"><link rel="stylesheet" href="/presentation-2026-phd-second-year/highlight-js/solarized-dark.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
@@ -32,7 +32,7 @@
 <div class="title-copy">
 <h1 id="advances-in-collective-robotics-through-macro-programming">Advances in Collective Robotics Through Macro-Programming</h1>
 <p class="author"><strong>Angela Cortecchia</strong><br>
-Supervisor: Prof. Danilo Pianini <br>Co-supervisor: Prof. Mirko Viroli<br>Third member: Enrico Gallinucci</p>
+Supervisor: <em>Prof. Danilo Pianini</em><br>Co-supervisor: <em>Prof. Mirko Viroli</em><br>Committee member: <em>Prof. Enrico Gallinucci</em></p>
 <p class="title-mail"><a href="mailto:angela.cortecchia@unibo.it">angela.cortecchia@unibo.it</a></p>
 <img class="title-logo" src="images/DIP INFORMATICA-SCIENZA E INGEGNERIA_DISI_EN.svg" alt="Department of Computer Science and Engineering, University of Bologna">
 </div>
@@ -40,6 +40,14 @@ Supervisor: Prof. Danilo Pianini <br>Co-supervisor: Prof. Mirko Viroli<br>Third 
 <img src="images/drones_avoiding_formation.png" alt="A robot swarm reorganizing around obstacles">
 </div>
 </div>
+
+
+
+<aside class="notes"><p>I am Angela Cortecchia, second-year PhD student under the supervision of Professor Danilo
+Pianini and Professor Mirko Viroli, with Professor Enrico Gallinucci as committee member.</p>
+<p>My doctoral research asks how macro-programming can support the engineering of collective
+robotic systems.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="challenge-slide" data-transition="fade">
@@ -61,6 +69,22 @@ Supervisor: Prof. Danilo Pianini <br>Co-supervisor: Prof. Mirko Viroli<br>Third 
 </div>
 </div>
 </div>
+
+
+
+<aside class="notes"><p>A robotic collective has to pursue a goal that only makes sense at the system level —
+cover an area, track a set of targets, hold a formation — while every single robot only
+ever sees its own neighborhood. There is no central point of coordination: not because we
+forgot to add one, but because in these deployments a central point is exactly what fails
+first.</p>
+<p>And the system does not hold still. The robots are heterogeneous, they move, they fail,
+they join and they leave. Connectivity and sensing change while the mission is running.
+And, unlike a distributed system made of servers, here a wrong transient is not a slow
+response: it is two robots colliding, or the swarm splitting into two disconnected halves.</p>
+<p>So the engineering question is not only <em>which coordination algorithm do I write</em>. It is
+<em>what does the collective need underneath it, at runtime</em>, so that the algorithm can keep
+working while all of this happens.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="aggregate-slide" data-transition="fade">
@@ -93,6 +117,26 @@ program runs decentralized on every device, which repeatedly:</p>
 </div>
 </div>
 </div>
+
+
+
+<aside class="notes"><p>Today the common answer is to program each robot individually — ROS is the typical example.
+That works beautifully for one robot, or ten. With hundreds, the interactions you have to
+write by hand grow faster than you can reason about them.</p>
+<p>Aggregate Computing takes the opposite stance. You write one program for the collective as
+a whole, and the very same program runs, decentralized, on every device. Each device
+repeatedly senses its local context, exchanges data with its neighbors, runs the aggregate
+program, and acts on its own local result. No device is special.</p>
+<p>The abstraction that makes this work is the <strong>computational field</strong>: a distributed data
+structure that maps every device of the network to a local value. A field can be the
+distance to a target, the identity of the current leader, the estimate of where something
+is. Behavior is then built by composing operators over fields — spread a value through the
+network, aggregate it back, restrict it to a region — instead of writing code device by
+device.</p>
+<p>The important consequence is the one at the bottom of the slide: local executions compose
+into a global behavior, and that behavior is self-organizing and self-stabilizing by
+construction.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="gap-slide" data-transition="fade">
@@ -121,6 +165,24 @@ program runs decentralized on every device, which repeatedly:</p>
 </div>
 </div>
 <p class="takeaway centered">The runtime must support dynamic, safe, and authorized changes to the collective behavior.</p>
+
+
+
+<aside class="notes"><p>Classic Aggregate Computing applications run <strong>one</strong> collective program, deployed once. A
+single behavior on each device; no preemption and no lifecycle management; and
+self-stabilization, which is a strong property, but one that guarantees recovery
+<em>eventually</em> — it says nothing about what happens in the meantime.</p>
+<p>A swarm mission needs something else. It needs several behaviors running concurrently on
+the same devices. It needs an authorized operator who can stop one of them or switch to
+another, while the swarm is flying. And it needs constraints that hold <em>during</em> the
+transient, not only at the fixed point.</p>
+<p>This is exactly the gap my research proposal identified two years ago. Let me quote the
+motivation almost literally: typical aggregate applications run a single, complex algorithm,
+but there are scenarios where algorithms must be added, removed or manipulated at runtime
+without affecting the others. The example in the proposal was crowd management — law
+enforcement needing to alter the movement of a <em>portion</em> of the crowd to prevent congestion.</p>
+<p>That is a process being preempted. Which is an operating-system concern.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="vision-slide" data-transition="fade">
@@ -148,7 +210,7 @@ program runs decentralized on every device, which repeatedly:</p>
 </div>
 <div class="os-row">
 <span class="os-cap">Consensus</span>
-<span class="os-mean">Agreement between processes occupying different regions</span>
+<span class="os-mean">Shared state converges to the best value, and survives transient faults</span>
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
@@ -168,6 +230,28 @@ program runs decentralized on every device, which repeatedly:</p>
 </div>
 </div>
 <p class="research-question">How can reusable runtime mechanisms keep collective behavior manageable while robots, goals, and networks change?</p>
+
+
+
+<aside class="notes"><p>So the vision of the thesis is: the
+runtime support a collective needs looks remarkably like an operating system — but a
+<em>situated</em> one, where the classic OS concepts are stretched over space and time, and where
+a process occupies a region rather than a slice of CPU.</p>
+<p>What I am building is not the whole OS. It is the reusable set of mechanisms underneath it,
+and this table is the map I have been working against.</p>
+<p>The proposal named a handful of concerns. <strong>Distributed sensors and actuators</strong> — treating
+many devices as one collective sensor. Managing <strong>resources</strong> across the collective.
+Reacting when devices are <strong>lost</strong>. To these I would add two that the two years of work
+brought to the surface: keeping <strong>distributed state</strong> consistent and repairable, and
+<strong>safety</strong> during the transient — the latter came out of the period abroad, and the proposal
+had underestimated it.</p>
+<p>Five of these now have a mechanism, and those are the five contributions I will show you.
+Two do not: <strong>preemption and lifecycle</strong> — start, stop and switch collective processes — and
+<strong>permissions</strong> — who is allowed to change the behavior of the collective. Those are the
+third year.</p>
+<p>So the research question is: how can reusable runtime mechanisms keep collective behavior
+manageable while robots, goals, and networks change?</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="portfolio-slide" data-transition="fade">
@@ -198,6 +282,25 @@ program runs decentralized on every device, which repeatedly:</p>
 <div class="slide-refs">
     <small>[1] A. Cortecchia, G. Ciatto, R. Casadei, and D. Pianini, <em>“FieldVMC: an asynchronous model and platform for self-organising morphogenesis of artificial structures”</em>. Complex Intell. Syst. 12(2) (2026)</small>
 </div>
+
+
+
+<aside class="notes"><p>The first mechanism is about growing structure where the collective needs it.</p>
+<p>FieldVMC is an asynchronous, fully decentralized reformulation of the Vascular Morphogenesis
+Controller. What you see on the left is a structure that grows, branches and repairs itself
+purely from a local flow of resources — there is no global blueprint anywhere. Resources are
+routed towards whichever area of the network is being most successful, so the structure
+concentrates where it pays off.</p>
+<p>Because it is asynchronous and field-based, it works over arbitrary network topologies, and
+structures can merge, split and reorganize as conditions change — behaviors that the
+original centralized formulation could not express.</p>
+<p>The plot on the right is the one I like most. Six populations, from a single node up to a
+thousand, all converge towards structures of comparable size: the model finds a
+resource-efficient configuration regardless of where it starts. We also observed genuinely
+new behaviors — self-integration, self-division, and this self-optimization — and
+convergence faster than the original VMC.</p>
+<p>This work is published in Complex and Intelligent Systems.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="portfolio-slide" data-transition="fade">
@@ -232,13 +335,31 @@ program runs decentralized on every device, which repeatedly:</p>
 <li><span class="key-swatch r-20"></span>R&nbsp;=&nbsp;20</li>
 <li><span class="key-swatch baseline"></span>Baseline</li>
 </ul>
-<figcaption><span class="detail">20 nodes, task factor 2.0; both strategies stay close to the Oracle as the range grows.</span></figcaption>
+<figcaption><span class="detail">Mission stable time (lower is better) against mean time between failures; 20 robots, 4 tasks each. <em>R</em> is the radio range in meters.</span></figcaption>
 </figure>
 </div>
 </div>
 <div class="slide-refs">
     <small>[2] G. Aguzzi, M. Baiardi, A. Cortecchia, B. Miloradovic, A. Papadopoulos, D. Pianini, and M. Viroli, <em>“A Field-Based Approach for Runtime Replanning in Swarm Robotics Missions”</em>. (ACSOS 2025)</small>
 </div>
+
+
+
+<aside class="notes"><p>The second mechanism is about what happens when you lose a robot mid-mission.</p>
+<p>A mission is assigned to the swarm as a set of tasks. A robot fails. Classically you would
+call a global planner again — which means a central point, and a stop. Here the plan is
+repaired by the collective itself, while it keeps operating: the tasks of the lost robot are
+redistributed among the survivors.</p>
+<p>We formulated two field-based strategies for this: fully distributed gossip, and dynamic
+leader election. The two panels compare them against a centralized Oracle and against a
+late-stage baseline, for different communication ranges.</p>
+<p>Two findings. First, with sufficient connectivity both strategies beat late replanning and
+get close to the Oracle — which is the interesting part, because the Oracle is not
+implementable. Second, the two are not interchangeable: gossip is more resilient when
+failures are frequent, while leader-based coordination costs less in replanning overhead.
+That trade-off is a design knob, not a defect.</p>
+<p>This was presented at ACSOS 2025, and received the best student paper award.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="portfolio-slide" data-transition="fade">
@@ -278,6 +399,27 @@ program runs decentralized on every device, which repeatedly:</p>
 <p>[4] A. Cortecchia, D. Domini, G. Ciatto, R. Casadei, and M. Viroli, <em>“Multi-Target Tracking via Field-Based Distributed Particle Filtering”</em> (ACSOS 2026)</p>
 </small>
 </div>
+
+
+
+<aside class="notes"><p>The third mechanism answers the proposal’s “distributed sensors and actuators”: making many
+unreliable observers behave as one collective sensor.</p>
+<p>Distributed particle filtering is the standard tool for state estimation from noisy,
+non-Gaussian observations. The problem is that existing algorithms bake their architecture
+into the filter: whether there is a fusion center, who the leader is, how information
+propagates — all hard-wired.</p>
+<p>What I did is express sensing, information dissemination, role assignment and the particles
+themselves as computational fields. That decouples the filtering logic from the coordination
+logic. Where fusion happens, and how information travels, become design choices you can vary
+without redesigning the estimator — and, more importantly, choices the system can change at
+runtime.</p>
+<p>On the right, three targets tracked across repeated failures of the fusion center: the
+collective re-elects a leader and the estimate recovers. We also showed that local
+cooperation improves accuracy, and that mobile observers can adapt their spatial
+configuration while tracking.</p>
+<p>Two papers: DCOSS-IoT 2026 for the formulation, ACSOS 2026 for multi-target tracking with
+mobile observers — which received the best companion artifact award.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="portfolio-slide" data-transition="fade">
@@ -308,6 +450,25 @@ program runs decentralized on every device, which repeatedly:</p>
 <div class="slide-refs">
     <small>[5] A. Cortecchia, D. Pianini, and M. Viroli, <em>“Self-Stabilizing Min-Max Gossip for Aggregate Computing”</em> (COORDINATION 2026)</small>
 </div>
+
+
+
+<aside class="notes"><p>The fourth mechanism is the one closest to a foundational building block. It is about
+keeping distributed state consistent — how the <em>devices</em> of the network agree on a value.</p>
+<p>Min–max gossip is how a network agrees on a “best” value — the closest target, the highest
+battery, the elected leader. But classical min–max consensus is monotonic and <em>not</em>
+self-stabilizing: once a value has been merged into the aggregate it can never be retracted.
+So after a transient fault, or a topology change, a stale value keeps circulating forever.</p>
+<p>The idea is to make each message carry not just the value but the <em>path</em> of nodes that
+acknowledged it. That path is what lets the algorithm detect loops and prune obsolete
+contributions — which is precisely what the classical formulation cannot do. The result is
+fully decentralized: no leader, no global reset, no timestamps, no coordinated epochs.</p>
+<p>We proved self-stabilization formally, and implemented it as a reusable library function in
+Collektive. The plot compares communication cost against time-replicated gossip, which is
+the usual way of buying self-stabilization: across cut, range-change and merge events, our
+approach costs a fraction of it.</p>
+<p>Published at COORDINATION 2026.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="filter-slide" data-transition="fade">
@@ -332,11 +493,30 @@ program runs decentralized on every device, which repeatedly:</p>
 <div class="slide-refs">
     <small>[6] A. Cortecchia, A. Papadopoulos, and D. Pianini <em>“Toward Safe Aggregate Computing: A Distributed Control-Theoretic Safety Filter for Robot Swarms”</em> (ACSOS-C 2026)</small>
 </div>
+
+
+
+<aside class="notes"><p>The last contribution is the one that came out of my research period abroad, at the
+Mälardalen University Automation Research Center, with Professor Alessandro Papadopoulos.</p>
+<p>The question there was the one I raised at the beginning: self-stabilization guarantees that
+the collective converges <em>eventually</em>, but robots are physical. During the transient they can
+collide, hit an obstacle, or lose connectivity — and “eventually correct” is no comfort.</p>
+<p>CAROL puts a safety filter between the collective strategy and the actuators. The aggregate
+program computes the behavior we <em>want</em>; the filter refines it into a command that is
+actually feasible, using Control Lyapunov Functions for convergence and Control Barrier
+Functions for the constraints — obstacle avoidance, inter-robot collision avoidance,
+connectivity preservation. The collective-level requirement is translated into per-robot
+constraints and enforced in a distributed way.</p>
+<p>The two scenarios show it working both when robots pursue different goals while
+collaborating, and when they share one goal and follow a leader. Implemented in Collektive,
+evaluated in Alchemist, and published in the ACSOS 2026 companion proceedings.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="open-slide" data-transition="fade">
   
 <h1 id="open-challenges">Open challenges</h1>
+<p class="process-note">A <strong>process</strong> here is a <em>distributed collective process</em>: one collective task carried out by a group of devices whose membership evolves in space and time — not a program running on one robot.</p>
 <div class="comparison open-comparison">
 <div class="comparison-side">
 <h3>Preemption &amp; lifecycle</h3>
@@ -354,12 +534,34 @@ program runs decentralized on every device, which repeatedly:</p>
 <p>Decide who may change the collective, and where</p>
 <ul>
 <li>Only <strong>authorized operators</strong> can alter the behavior of the swarm</li>
-<li>Programs <strong>confined to a geographic area</strong>, while the devices keep moving</li>
-<li>Requires a <em>user model</em> and permissions over collective behavior</li>
+<li>Processes <strong>confined to a geographic area</strong>, while the devices keep moving through it</li>
+<li><strong>No notion of user, group or authority</strong> exists: who may start, join or stop a process is undefined</li>
 </ul>
 </div>
 </div>
 <p class="takeaway centered warning">Mission-critical swarms need a lifecycle and an authority model, not only a coordination algorithm.</p>
+
+
+
+<aside class="notes"><p>Which brings me back to the two rows of the map that are still empty. One clarification
+first, because the word is overloaded: a <em>process</em> here is a distributed collective process —
+one collective task carried out by a group of devices whose membership evolves in space and
+time. Not a program running on one robot.</p>
+<p><strong>Preemption and lifecycle.</strong> Let me be precise about what is already solved. Distributed
+collective processes do spread, shrink and overlap on the same devices; a device can take
+part in several of them at once; membership is re-evaluated every round. What is missing is
+control from <em>outside</em>: today a process ends because its own members opt out, and there is no
+authority that can suspend, resume or terminate it — signals and interrupts, in
+operating-system terms. The set of behaviors the swarm can run is also still fixed at
+deployment: adding a new one means redeploying. And when two processes have to exchange
+information, that is hand-coded for the specific application, with no general mechanism.</p>
+<p><strong>Users and permissions.</strong> If someone can change what the swarm is doing, we need to say who
+is authorized, and where — processes confined to a geographic area while the devices keep
+moving through it. Aggregate computing has no notion of user, group or authority at all: who
+may start, join or stop a process is simply undefined.</p>
+<p>The point I want to leave here: a mission-critical swarm needs a lifecycle and an authority
+model, not only a coordination algorithm.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="current-investigations-slide" data-transition="fade">
@@ -393,6 +595,20 @@ program runs decentralized on every device, which repeatedly:</p>
 <p>Weighted averages and medians, with loop detection extended to algorithms such as gradients.</p>
 </div>
 </div>
+
+
+
+<aside class="notes"><p>Work in progress, briefly.</p>
+<p>On <strong>CAROL</strong>, I am extending the safety filter to formation control, flocking and coverage,
+so that the guarantees hold for the collective behaviors we actually deploy.</p>
+<p>On <strong>FieldVMC</strong>, I am using Signed Distance Fields to represent letter-shaped formations and
+to support safe movement into them — which is also the bridge towards using FieldVMC as a
+mechanism for runtime <strong>path replanning</strong>.</p>
+<p>On <strong>field-based DPF</strong>, the direction is heterogeneous sensors and actuators in more
+demanding scenarios, and support for additional filtering algorithms.</p>
+<p>And on <strong>self-stabilizing gossip</strong>, extending beyond min and max to weighted averages and
+medians, and reusing the loop-detection idea for other algorithms such as gradients.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="closing-slide future-work-slide" data-transition="fade">
@@ -414,6 +630,19 @@ program runs decentralized on every device, which repeatedly:</p>
 <img src="images/qr.png" alt="QR code linking to my personal portfolio">
 <a href="https://angelacorte.github.io/angelacorte/">Personal portfolio</a>
 </div>
+
+
+
+<aside class="notes"><p>For the third year, two things.</p>
+<p>First, close the map: add the two missing building blocks — preemption and lifecycle, and
+permissions over collective behavior. These are the concerns the proposal listed as signals,
+interrupts, and users and permissions, and they are what turns a set of mechanisms into a
+system rather than a library.</p>
+<p>Second, integrate all of them into a CROS prototype in Collektive, so that the contributions
+stop being five separate papers and become one coherent layer that somebody else can build on.</p>
+<p>The goal, in one line: make the swarm programmable as one system, while keeping its
+adaptation explicit and safe.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="scientific-activities-slide" data-transition="fade">
@@ -427,7 +656,7 @@ program runs decentralized on every device, which repeatedly:</p>
 <ul class="activity-list">
 <li><strong>Publicity Chair</strong><span>ACSOS 2026</span></li>
 <li><strong>Reviewer</strong><span>Complex &amp; Intelligent Systems · Q1 · 2026</span></li>
-<li><strong>Artifact Evaluation Committee</strong><span>FormaliSE 2026</span></li>
+<li><strong>Artifact Evaluation Committee</strong><span>Formalize 2026</span></li>
 </ul>
 </div>
 <div class="activities-bottom-row">
@@ -468,6 +697,18 @@ program runs decentralized on every device, which repeatedly:</p>
 </div>
 </div>
 </div>
+
+
+
+<aside class="notes"><p>Very quickly, the rest of the activity.</p>
+<p>On academic service: I have been Publicity Chair for ACSOS 2026, I reviewed for Complex and
+Intelligent Systems, and I served on the Artifact Evaluation Committee of Formalize 2026.</p>
+<p>On teaching: sixty hours as tutor for Object Oriented Programming this academic year, and
+Architetture degli Elaboratori before that.</p>
+<p>And I attended seven scientific events: four conferences — ACSOS, DCOSS-IoT, WOA and
+COORDINATION — and three summer schools, in Bertinoro, Lugano and L’Aquila. Plus the
+four-month research period at Mälardalen University that produced the safety filter.</p>
+</aside>
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" class="publication-slide" data-transition="fade">
@@ -487,6 +728,13 @@ program runs decentralized on every device, which repeatedly:</p>
 <li>F. Gurioli, M. Baiardi, <strong>A. Cortecchia</strong>, D. Pianini, <em>“High-Fidelity Simulation of Aggregate Computing Systems with Collektivity”</em> (COORDINATION 2026)<br>DOI: <a href="https://doi.org/10.1007/978-3-032-28358-0_13">10.1007/978-3-032-28358-0_13</a></li>
 <li>N. Farabegoli, G. Aguzzi, M. Baiardi, <strong>A. Cortecchia</strong>, D. Domini, D. Pianini, M. Viroli. <em>“Project Emerge: A demonstrator for self-organizing robot teams”</em>, Science of Computer Programming (Q3) (2027)<br>DOI: <a href="https://doi.org/10.1016/j.scico.2026.103559">10.1016/j.scico.2026.103559</a></li>
 </ul>
+
+
+
+<aside class="notes"><p>And this is the output so far: eleven papers, six as first author, including two journal
+papers — one Q1 — a best student paper award at ACSOS 2025 and a best companion artifact
+award at ACSOS 2026.</p>
+</aside>
 </section>
 
   
