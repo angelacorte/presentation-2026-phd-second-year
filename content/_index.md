@@ -230,7 +230,7 @@ motivation I wrote in my research proposal two years ago.
 <div class="os-map">
 <div class="os-row">
 <span class="os-cap">Resource management</span>
-<span class="os-mean">Structures and resources grow where the collective needs them</span>
+<span class="os-mean">Resources routed where they are needed, and re-routed as the demand moves</span>
 <span class="os-state">investigated</span>
 </div>
 <div class="os-row">
@@ -268,25 +268,25 @@ motivation I wrote in my research proposal two years ago.
 <p class="research-question">How can reusable runtime mechanisms keep collective behavior manageable while robots, goals, and networks change?</p>
 
 {{% note %}}
-So the vision of the thesis is: the
-runtime support a collective needs looks remarkably like an operating system — but a
-*situated* one, where the classic OS concepts are stretched over space and time, and where
-a process occupies a region rather than a slice of CPU.
+So, the vision. A **Collective Robotic Operating System** is a layer between the collective
+programs and the devices that run them. Its job is the job of any operating system: manage the
+resources, keep track of the state of the machine, decide what runs and who may change it.
+Except that the machine here is not one robot — it is the collective, spread over space.
 
-What I am building is not the whole OS. It is the reusable set of mechanisms underneath it,
-and this table is the map I have been working against.
+So the way to ask what such a system must provide is to take each capability an operating
+system gives a single machine, and ask what it becomes for a collective.
 
-The proposal named a handful of concerns. **Distributed sensors and actuators** — treating
-many devices as one collective sensor. Managing **resources** across the collective.
-Reacting when devices are **lost**. To these I would add two that the two years of work
-brought to the surface: keeping **distributed state** consistent and repairable, and
-**safety** during the transient — the latter came out of the period abroad, and the proposal
-had underestimated it.
+Managing resources becomes routing them to the areas that need them most at a given moment,
+and re-routing them when that changes. Knowing the state
+of the machine becomes estimating it from distributed, unreliable observations. Recovering
+from a failed component becomes redistributing tasks when a device is lost. Keeping memory
+consistent becomes agreeing on a value that survives faults. Protecting the hardware becomes
+enforcing physical constraints while the collective is still moving. And running processes
+becomes starting, stopping and switching collective behaviors — with someone authorized to do
+it.
 
-Five of these now have a mechanism, and those are the five contributions I will show you.
-Two do not: **preemption and lifecycle** — start, stop and switch collective processes — and
-**permissions** — who is allowed to change the behavior of the collective. Those are the
-third year.
+That is this table. The first five already have a mechanism, and they are the five
+contributions I am about to show you. The last two do not, and they are the third year.
 
 So the research question is: how can reusable runtime mechanisms keep collective behavior
 manageable while robots, goals, and networks change?
